@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini Sung｜AI 應用與工作流程實踐者</title>
+  <meta name="description" content="Mini Sung 是一位具備 16 年產業經驗的 AI 應用實踐者，專注於生成式 AI、AI Agent、知識整理、學習流程與互動式網頁設計，協助非技術背景學習者將複雜資訊轉化為可操作、可持續累積的方法。" />
+  <meta name="theme-color" content="#006CB7" />
+  <meta property="og:title" content="Mini Sung｜AI 應用與工作流程實踐者" />
+  <meta property="og:description" content="將生成式 AI、知識整理與互動網頁結合，打造可理解、可操作、可持續累積的學習系統。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="zh_TW" />
+  <!-- TODO: 請在部署後補上正式網址與 Open Graph 圖片 -->
+  <!-- <meta property="og:url" content="https://yourdomain.com" /> -->
+  <!-- <meta property="og:image" content="https://yourdomain.com/og-image.jpg" /> -->
+  <!-- TODO: 在此加入 favicon，例如：<link rel="icon" href="/favicon.ico" /> -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-p8WJcZIq6qyWkPd2hyyq9K4fj5bM0fh8M7cz6M6G/0P362VdcJpWp8+FXfXhai+vn8MjlvkDk8d7C7UL3mlPZA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'Noto Sans TC', 'system-ui', 'sans-serif']
+          },
+          colors: {
+            brand: {
+              blue: '#006CB7',
+              primary: '#006CB7',
+              teal: '#00A6B3',
+              mint: '#00A6B3',
+              green: '#2E7D6B',
+              purple: '#6A5ACD',
+              orange: '#FF8C00',
+              yellow: '#FFC107',
+              red: '#E53935',
+              ink: '#1F2937',
+              body: '#4B5563',
+              muted: '#9CA3AF',
+              soft: '#F3F4F6',
+              pale: '#E5E7EB',
+              line: '#D1D5DB'
+            }
+          },
+          boxShadow: {
+            soft: '0 20px 60px rgba(15, 23, 42, 0.08)',
+            glow: '0 18px 50px rgba(37, 99, 235, 0.16)'
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    :root {
+      --brand-blue: #006CB7;
+      --brand-primary: #006CB7;
+      --brand-teal: #00A6B3;
+      --brand-mint: #00A6B3;
+      --brand-green: #2E7D6B;
+      --brand-purple: #6A5ACD;
+      --brand-orange: #FF8C00;
+      --brand-yellow: #FFC107;
+      --brand-red: #E53935;
+      --brand-ink: #1F2937;
+      --brand-body: #4B5563;
+      --brand-muted: #9CA3AF;
+      --brand-soft: #F3F4F6;
+      --brand-pale: #E5E7EB;
+      --brand-line: #D1D5DB;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      overflow-x: hidden;
+      background: var(--brand-soft);
+      color: var(--brand-body);
+      text-rendering: optimizeLegibility;
+    }
+
+    ::selection {
+      background: rgba(0, 108, 183, 0.16);
+      color: var(--brand-ink);
+    }
+
+    .skip-link {
+      position: fixed;
+      top: 0.75rem;
+      left: 0.75rem;
+      z-index: 100;
+      transform: translateY(-180%);
+      border-radius: 9999px;
+      background: #ffffff;
+      padding: 0.75rem 1rem;
+      color: var(--brand-ink);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+      transition: transform 180ms ease;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .section-shell {
+      width: min(1180px, calc(100% - 2rem));
+      margin-inline: auto;
+    }
+
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(209, 213, 219, 0.86);
+      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .gradient-text {
+      background: linear-gradient(100deg, var(--brand-primary), var(--brand-purple) 68%, var(--brand-teal));
+      background-size: 180% 180%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: gradientShift 8s ease-in-out infinite;
+    }
+
+    .ambient-orb {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(70px);
+      opacity: 0.35;
+      pointer-events: none;
+      animation: drift 13s ease-in-out infinite alternate;
+    }
+
+    .grid-mask {
+      background-image:
+        linear-gradient(rgba(148, 163, 184, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.12) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.75), transparent 92%);
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.75), transparent 92%);
+    }
+
+    .flow-line {
+      stroke-dasharray: 12 16;
+      animation: dash 18s linear infinite;
+    }
+
+    .node {
+      animation: floatNode 6s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 700ms ease, transform 700ms ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .interactive-card {
+      position: relative;
+      overflow: hidden;
+      transition: transform 350ms ease, box-shadow 350ms ease, border-color 350ms ease;
+    }
+
+    .interactive-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(0, 108, 183, 0.5), rgba(106, 90, 205, 0.12), rgba(46, 125, 107, 0.4));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 350ms ease;
+      pointer-events: none;
+    }
+
+    .interactive-card:hover,
+    .interactive-card:focus-within {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 60px rgba(37, 99, 235, 0.12);
+    }
+
+    .interactive-card:hover::before,
+    .interactive-card:focus-within::before {
+      opacity: 1;
+    }
+
+    .cta-button {
+      min-width: 190px;
+      transition: transform 260ms ease, box-shadow 260ms ease, color 260ms ease, background 260ms ease;
+    }
+
+    .cta-button:hover,
+    .cta-button:focus-visible {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(16, 185, 129, 0.2);
+    }
+
+    .cta-label {
+      display: inline-block;
+      min-width: 160px;
+      text-align: center;
+    }
+
+    .nav-link {
+      position: relative;
+      color: #64748b;
+      transition: color 200ms ease;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -0.5rem;
+      height: 2px;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, var(--brand-blue), var(--brand-purple));
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 220ms ease;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--brand-ink);
+    }
+
+    .nav-link.active::after,
+    .nav-link:hover::after {
+      transform: scaleX(1);
+    }
+
+    .portfolio-visual {
+      position: relative;
+      min-height: 220px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 25% 25%, rgba(0, 108, 183, 0.18), transparent 35%),
+        radial-gradient(circle at 80% 30%, rgba(106, 90, 205, 0.16), transparent 32%),
+        linear-gradient(135deg, #EFF6FF, #F3F4F6 55%, #FFFFFF);
+    }
+
+    .portfolio-visual::after {
+      content: '';
+      position: absolute;
+      inset: -30%;
+      background: linear-gradient(110deg, transparent 35%, rgba(255, 255, 255, 0.72) 50%, transparent 65%);
+      transform: translateX(-55%);
+      animation: shimmer 7s ease-in-out infinite;
+    }
+
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 80;
+      height: 3px;
+      width: 0;
+      background: linear-gradient(90deg, var(--brand-primary), var(--brand-purple), var(--brand-teal));
+    }
+
+    .toast {
+      transform: translateY(120%);
+      opacity: 0;
+      transition: transform 260ms ease, opacity 260ms ease;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .typing-caret {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      margin-left: 0.15em;
+      vertical-align: -0.08em;
+      background: var(--brand-blue);
+      animation: blink 0.9s step-end infinite;
+    }
+
+    .stat-line {
+      transform-origin: left;
+      animation: pulseLine 4.8s ease-in-out infinite;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    @keyframes drift {
+      from { transform: translate3d(-2%, -2%, 0) scale(1); }
+      to { transform: translate3d(6%, 8%, 0) scale(1.12); }
+    }
+
+    @keyframes dash {
+      to { stroke-dashoffset: -360; }
+    }
+
+    @keyframes floatNode {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes shimmer {
+      0%, 20% { transform: translateX(-65%); }
+      70%, 100% { transform: translateX(65%); }
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    @keyframes pulseLine {
+      0%, 100% { transform: scaleX(0.62); opacity: 0.72; }
+      50% { transform: scaleX(1); opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .section-shell {
+        width: min(100% - 1.25rem, 1180px);
+      }
+      .ambient-orb {
+        filter: blur(55px);
+        opacity: 0.24;
+      }
+      .grid-mask {
+        background-size: 30px 30px;
+      }
+      .portfolio-visual {
+        min-height: 185px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+      .typing-caret { display: none; }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased">
+  <a class="skip-link" href="#main-content">跳至主要內容</a>
+  <div id="scrollProgress" class="scroll-progress" aria-hidden="true"></div>
+
+  <header id="siteHeader" class="fixed inset-x-0 top-0 z-50 border-b border-transparent transition-all duration-300">
+    <div class="section-shell flex h-18 items-center justify-between py-4">
+      <a href="#home" class="group flex items-center gap-3 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4" aria-label="回到首頁">
+        <span class="grid h-10 w-10 place-items-center rounded-2xl bg-gradient-to-br from-brand-blue to-brand-purple text-sm font-bold text-white shadow-glow">MS</span>
+        <span>
+          <span class="block text-sm font-extrabold tracking-tight text-brand-ink">Mini Sung</span>
+          <span class="block text-[11px] font-medium tracking-wide text-brand-muted">AI Learning Experience Builder</span>
+        </span>
+      </a>
+
+      <nav class="hidden items-center gap-7 lg:flex" aria-label="主要導覽">
+        <a class="nav-link text-sm font-semibold" href="#home">Home</a>
+        <a class="nav-link text-sm font-semibold" href="#about">About</a>
+        <a class="nav-link text-sm font-semibold" href="#approach">Approach</a>
+        <a class="nav-link text-sm font-semibold" href="#services">Services</a>
+        <a class="nav-link text-sm font-semibold" href="#portfolio">Portfolio</a>
+        <a class="nav-link text-sm font-semibold" href="#insights">Insights</a>
+        <a class="nav-link text-sm font-semibold" href="#contact">Contact</a>
+      </nav>
+
+      <div class="hidden lg:block">
+        <a href="https://calendar.app.google/G3iCScDJyPbezTw3A" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center justify-center rounded-full border border-brand-line bg-white/80 px-5 text-sm font-bold text-brand-ink shadow-sm transition hover:-translate-y-0.5 hover:border-brand-blue hover:shadow-glow focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4">
+          預約交流
+        </a>
+      </div>
+
+      <button id="menuButton" class="grid h-11 w-11 place-items-center rounded-xl border border-brand-line bg-white text-brand-ink shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue lg:hidden" aria-expanded="false" aria-controls="mobileMenu" aria-label="開啟導覽選單">
+        <svg id="menuIcon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div id="mobileMenu" class="pointer-events-none absolute inset-x-3 top-[72px] origin-top scale-95 rounded-3xl border border-brand-line bg-white/95 p-4 opacity-0 shadow-soft backdrop-blur-xl transition lg:hidden" aria-hidden="true">
+      <nav class="grid gap-1" aria-label="手機版導覽">
+        <a class="mobile-nav-link rounded-2xl px-4 py-3 font-semibold text-brand-body hover:bg-brand-pale hover:text-brand-ink" href="#home">Home</a>
+        <a class="mobile-nav-link rounded-2xl px-4 py-3 font-semibold text-brand-body hover:bg-brand-pale hover:text-brand-ink" href="#about">About</a>
+        <a class="mobile-nav-link rounded-2xl px-4 py-3 font-semibold text-brand-body hover:bg-brand-pale hover:text-brand-ink" href="#approach">Approach</a>
+        <a class="mobile-nav-link rounded-2xl px-4 py-3 font-semibold text-brand-body hover:bg-brand-pale hover:text-brand-ink" href="#services">Services</a>
+        <a class="mobile-nav-link rounded-2xl px-4 py-3 font-semibold text-brand-body hover:bg-brand-pale hover:text-brand-ink" href="#portfolio">Portfolio</a>
+        <a class="mobile-nav-link rounded-2xl px-4 py-3 font-semibold text-brand-body hover:bg-brand-pale hover:text-brand-ink" href="#insights">Insights</a>
+        <a class="mobile-nav-link rounded-2xl px-4 py-3 font-semibold text-brand-body hover:bg-brand-pale hover:text-brand-ink" href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section id="home" class="relative flex min-h-screen items-center overflow-hidden pt-28" aria-labelledby="hero-title">
+      <canvas id="particleCanvas" class="absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
+      <div class="grid-mask absolute inset-0" aria-hidden="true"></div>
+      <div class="ambient-orb left-[-10%] top-[12%] h-80 w-80 bg-brand-primary/20" aria-hidden="true"></div>
+      <div class="ambient-orb right-[-7%] top-[18%] h-96 w-96 bg-brand-purple/20" style="animation-delay: -4s" aria-hidden="true"></div>
+      <div class="ambient-orb bottom-[-16%] left-[35%] h-80 w-80 bg-brand-teal/15" style="animation-delay: -7s" aria-hidden="true"></div>
+
+      <svg class="absolute inset-x-0 bottom-0 h-[54%] w-full opacity-70" viewBox="0 0 1440 560" fill="none" aria-hidden="true">
+        <path class="flow-line" d="M-30 350C210 250 290 430 530 318C760 210 870 390 1130 240C1290 150 1380 180 1490 120" stroke="url(#flowGradient)" stroke-width="2" />
+        <path class="flow-line" d="M-10 440C250 300 420 520 650 390C900 250 1070 390 1470 270" stroke="url(#flowGradient2)" stroke-width="1.4" opacity="0.65" />
+        <defs>
+          <linearGradient id="flowGradient" x1="0" y1="0" x2="1440" y2="0" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#006CB7" stop-opacity="0"/>
+            <stop offset="0.34" stop-color="#00A6B3"/>
+            <stop offset="0.68" stop-color="#6A5ACD"/>
+            <stop offset="1" stop-color="#2E7D6B" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="flowGradient2" x1="0" y1="0" x2="1440" y2="0" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#6A5ACD" stop-opacity="0"/>
+            <stop offset="0.5" stop-color="#E5E7EB"/>
+            <stop offset="1" stop-color="#F3F4F6" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+      </svg>
+
+      <div class="section-shell relative z-10 grid items-center gap-14 py-20 lg:grid-cols-[1.1fr_.9fr] lg:py-28">
+        <div class="max-w-4xl">
+          <div class="reveal mb-6 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white/80 px-4 py-2 text-xs font-bold tracking-[0.14em] text-brand-blue shadow-sm backdrop-blur">
+            <span class="h-2 w-2 rounded-full bg-brand-mint shadow-[0_0_14px_rgba(16,185,129,.8)]"></span>
+            HUMAN-CENTERED AI PRACTICE
+          </div>
+
+          <h1 id="hero-title" class="reveal text-balance text-4xl font-extrabold leading-[1.08] tracking-[-0.045em] text-brand-ink sm:text-5xl lg:text-7xl">
+            <span id="typingText" aria-label="Until AI-Powered Learning Becomes Common Sense"></span><span class="typing-caret" aria-hidden="true"></span>
+          </h1>
+
+          <p class="reveal mt-6 text-xl font-bold leading-relaxed text-brand-ink sm:text-2xl">
+            直到 AI 驅動的學習，成為每個人的日常能力。
+          </p>
+
+          <p class="reveal mt-6 max-w-2xl text-base leading-8 text-brand-body sm:text-lg">
+            我將生成式 AI、知識整理與互動式網頁結合，協助非技術背景的學習者，把複雜資訊轉化為清楚、可操作、可持續累積的學習系統。
+          </p>
+
+          <div class="reveal mt-9 flex flex-col gap-4 sm:flex-row">
+            <a href="#portfolio" class="cta-button inline-flex min-h-13 items-center justify-center rounded-full bg-gradient-to-r from-brand-blue to-brand-purple px-6 py-3.5 font-bold text-white shadow-glow focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4">
+              <span class="cta-label">View My Work</span>
+            </a>
+            <a href="https://calendar.app.google/G3iCScDJyPbezTw3A" target="_blank" rel="noopener noreferrer" data-hover-label="Status: Ready to Connect" class="cta-button hover-label-button inline-flex min-h-13 items-center justify-center rounded-full border border-brand-line bg-white/75 px-6 py-3.5 font-bold text-brand-ink shadow-sm backdrop-blur focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-mint focus-visible:ring-offset-4">
+              <span class="cta-label">Book a Consultation</span>
+            </a>
+          </div>
+
+          <div class="reveal mt-10 grid max-w-2xl grid-cols-1 gap-4 sm:grid-cols-3">
+            <div class="rounded-2xl border border-brand-line bg-white/65 p-4 backdrop-blur">
+              <p class="text-2xl font-extrabold text-brand-ink">16+</p>
+              <p class="mt-1 text-sm font-medium text-brand-muted">Years of Industry Practice</p>
+            </div>
+            <div class="rounded-2xl border border-brand-line bg-white/65 p-4 backdrop-blur">
+              <p class="text-2xl font-extrabold text-brand-ink">AI × Workflow</p>
+              <p class="mt-1 text-sm font-medium text-brand-muted">方法與流程並重</p>
+            </div>
+            <div class="rounded-2xl border border-brand-line bg-white/65 p-4 backdrop-blur">
+              <p class="text-2xl font-extrabold text-brand-ink">Learn → Build</p>
+              <p class="mt-1 text-sm font-medium text-brand-muted">從理解走向實作</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal relative mx-auto w-full max-w-lg">
+          <div class="glass-panel interactive-card rounded-[2rem] p-5 sm:p-7">
+            <div class="mb-6 flex items-center justify-between">
+              <div>
+                <p class="text-xs font-bold tracking-[0.18em] text-brand-blue">AI LEARNING SYSTEM</p>
+                <h2 class="mt-2 text-2xl font-extrabold text-brand-ink">把一次性答案，變成可重複的方法</h2>
+              </div>
+              <div class="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-blue-100 to-violet-100 text-brand-blue">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6v6l4 2"/><path d="M16 3h5v5"/><path d="m21 3-5 5"/></svg>
+              </div>
+            </div>
+
+            <div class="space-y-4">
+              <div class="rounded-2xl border border-blue-100 bg-blue-50/70 p-4">
+                <div class="flex items-center justify-between gap-4">
+                  <span class="font-bold text-brand-ink">01 Clarify</span>
+                  <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-brand-blue">定義問題</span>
+                </div>
+                <div class="mt-3 h-1.5 overflow-hidden rounded-full bg-white">
+                  <div class="stat-line h-full w-full rounded-full bg-gradient-to-r from-blue-400 to-blue-600"></div>
+                </div>
+              </div>
+              <div class="rounded-2xl border border-violet-100 bg-violet-50/70 p-4">
+                <div class="flex items-center justify-between gap-4">
+                  <span class="font-bold text-brand-ink">02 Structure</span>
+                  <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-brand-purple">組織資訊</span>
+                </div>
+                <div class="mt-3 grid grid-cols-3 gap-2">
+                  <span class="h-12 rounded-xl bg-white shadow-sm"></span>
+                  <span class="h-12 rounded-xl bg-white shadow-sm"></span>
+                  <span class="h-12 rounded-xl bg-white shadow-sm"></span>
+                </div>
+              </div>
+              <div class="grid gap-4 sm:grid-cols-2">
+                <div class="rounded-2xl border border-emerald-100 bg-emerald-50/70 p-4">
+                  <p class="font-bold text-brand-ink">03 Build</p>
+                  <p class="mt-2 text-sm leading-6 text-brand-muted">提示詞、流程、工具與互動網頁</p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-white p-4">
+                  <p class="font-bold text-brand-ink">04 Validate</p>
+                  <p class="mt-2 text-sm leading-6 text-brand-muted">測試、人工覆核與成果驗收</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="absolute -bottom-8 -left-8 -z-10 h-36 w-36 rounded-full bg-blue-200/40 blur-3xl"></div>
+          <div class="absolute -right-10 -top-10 -z-10 h-44 w-44 rounded-full bg-violet-200/40 blur-3xl"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="relative py-24 sm:py-32" aria-labelledby="about-title">
+      <div class="section-shell">
+        <div class="reveal mx-auto max-w-3xl text-center">
+          <p class="text-sm font-extrabold tracking-[0.18em] text-brand-blue">ABOUT</p>
+          <h2 id="about-title" class="mt-4 text-3xl font-extrabold tracking-tight text-brand-ink sm:text-5xl">From Industry Experience to AI Practice</h2>
+          <p class="mt-5 text-xl font-bold text-brand-ink">從產業經驗，到可落地的 AI 實踐</p>
+          <p class="mt-6 text-base leading-8 text-brand-body sm:text-lg">
+            我是一位具備 16 年產業經驗的 AI 應用實踐者，擁有企業管理與跨領域學習背景。我關注的不只是 AI 工具本身，而是如何將人工智慧轉化為一般人能理解、實際操作並持續使用的方法。
+          </p>
+          <p class="mt-4 text-base leading-8 text-brand-body sm:text-lg">
+            我相信，AI 的真正價值並非單純加快內容產出，而是協助使用者釐清問題、拆解流程、整合資訊，並建立可以反覆執行與持續改善的工作方法。
+          </p>
+        </div>
+
+        <div class="mt-14 grid gap-6 md:grid-cols-2">
+          <article class="reveal interactive-card rounded-3xl border border-brand-line bg-white p-7 shadow-soft">
+            <div class="flex items-start gap-5">
+              <div class="grid h-13 w-13 shrink-0 place-items-center rounded-2xl bg-blue-50 text-brand-blue">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              </div>
+              <div>
+                <p class="text-sm font-bold text-brand-blue">01</p>
+                <h3 class="mt-1 text-xl font-extrabold text-brand-ink">16 年產業歷練</h3>
+                <p class="mt-4 leading-7 text-brand-body">累積長期企業實務經驗，理解組織運作、使用者需求與實際執行之間的落差。探索 AI 應用時，不只關注新技術，也重視使用情境、操作流程與成果是否真正可用。</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="reveal interactive-card rounded-3xl border border-brand-line bg-white p-7 shadow-soft">
+            <div class="flex items-start gap-5">
+              <div class="grid h-13 w-13 shrink-0 place-items-center rounded-2xl bg-violet-50 text-brand-purple">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+              </div>
+              <div>
+                <p class="text-sm font-bold text-brand-purple">02</p>
+                <h3 class="mt-1 text-xl font-extrabold text-brand-ink">AI 與數位能力認證</h3>
+                <p class="mt-4 leading-7 text-brand-body">已取得 iPAS AI 應用規劃師中級及 Microsoft Azure AI Fundamentals（AI-900）等相關認證，並持續進修 AI、資料分析、數位行銷與商業智慧。</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="reveal interactive-card rounded-3xl border border-brand-line bg-white p-7 shadow-soft">
+            <div class="flex items-start gap-5">
+              <div class="grid h-13 w-13 shrink-0 place-items-center rounded-2xl bg-emerald-50 text-brand-mint">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+              </div>
+              <div>
+                <p class="text-sm font-bold text-brand-mint">03</p>
+                <h3 class="mt-1 text-xl font-extrabold text-brand-ink">AI 學習與方法實踐</h3>
+                <p class="mt-4 leading-7 text-brand-body">持續研究生成式 AI、AI Agent、Agent Skills、提示設計、知識管理與自動化流程，並將複雜概念整理成清楚的學習架構、操作步驟與實作方法。</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="reveal interactive-card rounded-3xl border border-brand-line bg-white p-7 shadow-soft">
+            <div class="flex items-start gap-5">
+              <div class="grid h-13 w-13 shrink-0 place-items-center rounded-2xl bg-sky-50 text-sky-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+              </div>
+              <div>
+                <p class="text-sm font-bold text-sky-600">04</p>
+                <h3 class="mt-1 text-xl font-extrabold text-brand-ink">互動式網頁作品</h3>
+                <p class="mt-4 leading-7 text-brand-body">運用 HTML、生成式 AI 與低程式碼工具，製作互動問卷、資料展示、學習工具及情境應用網頁，將抽象概念轉化為可操作、可展示且容易理解的數位作品。</p>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="reveal mx-auto mt-12 max-w-4xl rounded-3xl border border-blue-100 bg-gradient-to-r from-blue-50/80 via-white to-violet-50/80 p-7 text-center shadow-soft sm:p-10">
+          <p class="text-lg font-semibold leading-8 text-brand-ink">我期望透過這個網站，分享 AI 學習歷程、實作作品與方法整理，陪伴更多非技術背景的學習者，以務實且有系統的方式，逐步建立自己的 AI 應用能力。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="approach" class="relative overflow-hidden bg-brand-soft py-24 sm:py-32" aria-labelledby="approach-title">
+      <div class="ambient-orb -right-24 top-10 h-72 w-72 bg-blue-100" aria-hidden="true"></div>
+      <div class="section-shell relative z-10">
+        <div class="reveal max-w-3xl">
+          <p class="text-sm font-extrabold tracking-[0.18em] text-brand-purple">APPROACH</p>
+          <h2 id="approach-title" class="mt-4 text-3xl font-extrabold tracking-tight text-brand-ink sm:text-5xl">AI Is Not Just a Tool. It Is a Better Way to Work.</h2>
+          <p class="mt-5 text-xl font-bold text-brand-ink">真正有效的 AI 應用，從流程設計開始。</p>
+        </div>
+
+        <div class="relative mt-14 grid gap-6 lg:grid-cols-4">
+          <div class="absolute left-[8%] right-[8%] top-16 hidden h-px bg-gradient-to-r from-blue-200 via-violet-200 to-emerald-200 lg:block" aria-hidden="true"></div>
+
+          <article class="reveal interactive-card relative rounded-3xl border border-brand-line bg-white p-6 shadow-soft">
+            <div class="grid h-13 w-13 place-items-center rounded-2xl bg-blue-50 text-xl font-extrabold text-brand-blue">01</div>
+            <p class="mt-6 text-sm font-bold tracking-wide text-brand-blue">CLARIFY</p>
+            <h3 class="mt-2 text-xl font-extrabold text-brand-ink">釐清問題</h3>
+            <p class="mt-4 leading-7 text-brand-body">先定義真正要解決的問題、使用者、需求與成果，不急著直接請 AI 產出答案。</p>
+          </article>
+
+          <article class="reveal interactive-card relative rounded-3xl border border-brand-line bg-white p-6 shadow-soft">
+            <div class="grid h-13 w-13 place-items-center rounded-2xl bg-violet-50 text-xl font-extrabold text-brand-purple">02</div>
+            <p class="mt-6 text-sm font-bold tracking-wide text-brand-purple">STRUCTURE</p>
+            <h3 class="mt-2 text-xl font-extrabold text-brand-ink">結構化資訊</h3>
+            <p class="mt-4 leading-7 text-brand-body">將零散資訊重新分類、整理與建立邏輯，使 AI 有清楚的輸入與判斷依據。</p>
+          </article>
+
+          <article class="reveal interactive-card relative rounded-3xl border border-brand-line bg-white p-6 shadow-soft">
+            <div class="grid h-13 w-13 place-items-center rounded-2xl bg-emerald-50 text-xl font-extrabold text-brand-mint">03</div>
+            <p class="mt-6 text-sm font-bold tracking-wide text-brand-mint">BUILD</p>
+            <h3 class="mt-2 text-xl font-extrabold text-brand-ink">建立方法與工具</h3>
+            <p class="mt-4 leading-7 text-brand-body">把一次性的回答，轉化為提示詞、工作流程、互動網頁、知識架構或可重複使用的工具。</p>
+          </article>
+
+          <article class="reveal interactive-card relative rounded-3xl border border-brand-line bg-white p-6 shadow-soft">
+            <div class="grid h-13 w-13 place-items-center rounded-2xl bg-slate-100 text-xl font-extrabold text-brand-ink">04</div>
+            <p class="mt-6 text-sm font-bold tracking-wide text-brand-muted">VALIDATE</p>
+            <h3 class="mt-2 text-xl font-extrabold text-brand-ink">驗收與改善</h3>
+            <p class="mt-4 leading-7 text-brand-body">透過測試、人工覆核與成果標準，確認產出不只是「做完」，而是「做對」並可持續優化。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="py-24 sm:py-32" aria-labelledby="services-title">
+      <div class="section-shell">
+        <div class="reveal mx-auto max-w-3xl text-center">
+          <p class="text-sm font-extrabold tracking-[0.18em] text-brand-blue">SERVICES</p>
+          <h2 id="services-title" class="mt-4 text-3xl font-extrabold tracking-tight text-brand-ink sm:text-5xl">AI Solutions for Better Learning</h2>
+          <p class="mt-5 text-xl font-bold text-brand-ink">讓每一次學習投入，都累積成下一次可以直接使用的能力。</p>
+          <p class="mt-6 leading-8 text-brand-body">我提供以學習成效與時間效益為核心的 AI 技術服務，協助學習者將零散、複雜的資訊，轉化為清楚、可理解、可操作的知識系統。</p>
+        </div>
+
+        <div class="mt-14 grid gap-6 lg:grid-cols-2">
+          <article class="reveal interactive-card rounded-[2rem] border border-brand-line bg-white p-7 shadow-soft sm:p-9">
+            <div class="flex items-start justify-between gap-5">
+              <div>
+                <p class="text-sm font-bold text-brand-blue">01 · CONTENT</p>
+                <h3 class="mt-2 text-2xl font-extrabold text-brand-ink">Content & Knowledge Structuring</h3>
+                <p class="mt-1 font-bold text-brand-body">內容與知識整理</p>
+              </div>
+              <span class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-blue-50 text-brand-blue">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              </span>
+            </div>
+            <p class="mt-6 leading-7 text-brand-body">將文章、課程、白皮書與學習素材，重新整理為重點摘要、概念架構、名詞解釋、操作流程與可重複使用的學習資源。</p>
+            <ul class="mt-6 grid gap-3 text-sm font-medium text-brand-body sm:grid-cols-2">
+              <li class="rounded-xl bg-brand-soft px-4 py-3">白皮書與專業文章拆解</li>
+              <li class="rounded-xl bg-brand-soft px-4 py-3">課程筆記系統化</li>
+              <li class="rounded-xl bg-brand-soft px-4 py-3">學習資料整合</li>
+              <li class="rounded-xl bg-brand-soft px-4 py-3">知識架構與導讀設計</li>
+            </ul>
+            <div class="mt-6 rounded-2xl border border-blue-100 bg-blue-50/70 p-4 text-sm leading-6 text-brand-body"><strong class="text-brand-ink">產出價值：</strong>縮短閱讀與重新整理資料的時間，提高理解、複習與再利用效率。</div>
+          </article>
+
+          <article class="reveal interactive-card rounded-[2rem] border border-brand-line bg-white p-7 shadow-soft sm:p-9">
+            <div class="flex items-start justify-between gap-5">
+              <div>
+                <p class="text-sm font-bold text-brand-purple">02 · INTERACTION</p>
+                <h3 class="mt-2 text-2xl font-extrabold text-brand-ink">Interactive Web Experiences</h3>
+                <p class="mt-1 font-bold text-brand-body">互動式網頁製作</p>
+              </div>
+              <span class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-violet-50 text-brand-purple">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4V2"/><path d="M15 16v-2"/><path d="M8 9h2"/><path d="M20 9h2"/><path d="M17.8 11.8 19 13"/><path d="M15 9h.01"/><path d="M17.8 6.2 19 5"/><path d="m3 21 9-9"/><path d="M12.2 6.2 11 5"/></svg>
+              </span>
+            </div>
+            <p class="mt-6 leading-7 text-brand-body">將靜態內容轉化為可操作的數位工具，讓使用者透過互動完成理解、判斷與應用。</p>
+            <ul class="mt-6 grid gap-3 text-sm font-medium text-brand-body sm:grid-cols-2">
+              <li class="rounded-xl bg-brand-soft px-4 py-3">互動問卷與學習檢核</li>
+              <li class="rounded-xl bg-brand-soft px-4 py-3">知識導覽頁面</li>
+              <li class="rounded-xl bg-brand-soft px-4 py-3">情境練習工具</li>
+              <li class="rounded-xl bg-brand-soft px-4 py-3">資料視覺化介面</li>
+            </ul>
+            <div class="mt-6 rounded-2xl border border-violet-100 bg-violet-50/70 p-4 text-sm leading-6 text-brand-body"><strong class="text-brand-ink">產出價值：</strong>讓知識不只被閱讀，而是可以被操作、測試、展示與實際使用。</div>
+          </article>
+
+          <article class="reveal interactive-card rounded-[2rem] border border-brand-line bg-white p-7 shadow-soft sm:p-9">
+            <div class="flex items-start justify-between gap-5">
+              <div>
+                <p class="text-sm font-bold text-brand-mint">03 · WORKFLOW</p>
+                <h3 class="mt-2 text-2xl font-extrabold text-brand-ink">AI Learning Workflow Design</h3>
+                <p class="mt-1 font-bold text-brand-body">AI 學習流程設計</p>
+              </div>
+              <span class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-emerald-50 text-brand-mint">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="6" height="6" x="3" y="3" rx="1"/><rect width="6" height="6" x="15" y="15" rx="1"/><path d="M6 9v6a3 3 0 0 0 3 3h6"/></svg>
+              </span>
+            </div>
+            <p class="mt-6 leading-7 text-brand-body">協助學習者將搜尋、閱讀、整理、練習、驗收與成果輸出，設計成清楚且可重複執行的 AI 協作流程。</p>
+            <ul class="mt-6 grid gap-3 text-sm font-medium text-brand-body sm:grid-cols-2">
+              <li class="rounded-xl bg-brand-soft px-4 py-3">個人學習系統</li>
+              <li class="rounded-xl bg-brand-soft px-4 py-3">白皮書學習流程</li>
+              <li class="rounded-xl bg-brand-soft px-4 py-3">表達力與內容產出流程</li>
+              <li class="rounded-xl bg-brand-soft px-4 py-3">知識管理工作流</li>
+            </ul>
+            <div class="mt-6 rounded-2xl border border-emerald-100 bg-emerald-50/70 p-4 text-sm leading-6 text-brand-body"><strong class="text-brand-ink">產出價值：</strong>減少每次重新開始的成本，建立可持續改善的個人學習方法。</div>
+          </article>
+
+          <article class="reveal interactive-card rounded-[2rem] border border-brand-line bg-white p-7 shadow-soft sm:p-9">
+            <div class="flex items-start justify-between gap-5">
+              <div>
+                <p class="text-sm font-bold text-brand-muted">04 · CONSULTING</p>
+                <h3 class="mt-2 text-2xl font-extrabold text-brand-ink">AI Application Consultation</h3>
+                <p class="mt-1 font-bold text-brand-body">AI 應用諮詢</p>
+              </div>
+              <span class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-slate-100 text-brand-ink">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/><path d="M8 9h8"/><path d="M8 13h6"/></svg>
+              </span>
+            </div>
+            <p class="mt-6 leading-7 text-brand-body">針對個人或小型專案需求，協助判斷哪些流程適合導入 AI、哪些環節需要人工判斷，以及如何設計成果驗收標準。</p>
+            <ul class="mt-6 grid gap-3 text-sm font-medium text-brand-body sm:grid-cols-2">
+              <li class="rounded-xl bg-brand-soft px-4 py-3">AI 應用方向梳理</li>
+              <li class="rounded-xl bg-brand-soft px-4 py-3">工作流程拆解</li>
+              <li class="rounded-xl bg-brand-soft px-4 py-3">提示詞與 Skill 概念優化</li>
+              <li class="rounded-xl bg-brand-soft px-4 py-3">互動工具規劃</li>
+            </ul>
+            <div class="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-6 text-brand-body"><strong class="text-brand-ink">產出價值：</strong>避免只追求工具與自動化，優先找到真正能創造效益的應用場景。</div>
+          </article>
+        </div>
+
+        <div class="reveal mt-14 rounded-[2rem] border border-brand-line bg-gradient-to-br from-brand-ink to-slate-800 p-7 text-white shadow-soft sm:p-10">
+          <div class="grid gap-8 lg:grid-cols-[.9fr_1.1fr] lg:items-center">
+            <div>
+              <p class="text-sm font-bold tracking-[0.18em] text-blue-200">ROI WITHOUT FAKE NUMBERS</p>
+              <h3 class="mt-3 text-3xl font-extrabold">我重視的 ROI，是成果能否持續被使用</h3>
+              <p class="mt-5 leading-8 text-slate-300">透過明確目標、流程設計與成果驗收，減少重複整理、縮短理解時間，並提高知識的應用率與再利用價值。</p>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-3">
+              <div class="rounded-2xl border border-white/10 bg-white/8 p-5 backdrop-blur">
+                <p class="text-lg font-extrabold">Less Rework</p>
+                <p class="mt-2 text-sm text-slate-300">減少重複整理</p>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-white/8 p-5 backdrop-blur">
+                <p class="text-lg font-extrabold">Faster Understanding</p>
+                <p class="mt-2 text-sm text-slate-300">縮短理解時間</p>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-white/8 p-5 backdrop-blur">
+                <p class="text-lg font-extrabold">Higher Reusability</p>
+                <p class="mt-2 text-sm text-slate-300">提高成果再利用率</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="portfolio" class="bg-brand-soft py-24 sm:py-32" aria-labelledby="portfolio-title">
+      <div class="section-shell">
+        <div class="reveal flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div class="max-w-3xl">
+            <p class="text-sm font-extrabold tracking-[0.18em] text-brand-purple">PORTFOLIO</p>
+            <h2 id="portfolio-title" class="mt-4 text-3xl font-extrabold tracking-tight text-brand-ink sm:text-5xl">Ideas Made Interactive</h2>
+            <p class="mt-5 text-xl font-bold text-brand-ink">把抽象概念，轉化為可以操作與展示的數位作品。</p>
+          </div>
+          <p class="max-w-md leading-7 text-brand-body">以下為作品類型示意。正式上線時可替換縮圖、專案連結與案例說明。</p>
+        </div>
+
+        <div class="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <article class="reveal interactive-card overflow-hidden rounded-[2rem] border border-brand-line bg-white shadow-soft lg:col-span-2">
+            <div class="portfolio-visual p-7">
+              <div class="relative z-10 grid h-full items-center gap-6 sm:grid-cols-[.85fr_1.15fr]">
+                <div class="rounded-3xl border border-white/80 bg-white/80 p-5 shadow-soft backdrop-blur">
+                  <p class="text-xs font-bold tracking-[0.14em] text-brand-blue">AI USAGE SURVEY</p>
+                  <div class="mt-4 space-y-3">
+                    <div class="h-3 w-4/5 rounded-full bg-blue-100"></div>
+                    <div class="h-3 w-3/5 rounded-full bg-violet-100"></div>
+                    <div class="grid grid-cols-2 gap-2">
+                      <div class="h-12 rounded-xl bg-brand-pale"></div>
+                      <div class="h-12 rounded-xl bg-emerald-50"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="hidden rounded-3xl border border-white/80 bg-white/70 p-5 shadow-soft backdrop-blur sm:block">
+                  <div class="flex items-end gap-3">
+                    <div class="h-16 w-8 rounded-t-xl bg-blue-200"></div>
+                    <div class="h-24 w-8 rounded-t-xl bg-blue-400"></div>
+                    <div class="h-12 w-8 rounded-t-xl bg-violet-300"></div>
+                    <div class="h-28 w-8 rounded-t-xl bg-violet-500"></div>
+                    <div class="h-20 w-8 rounded-t-xl bg-emerald-300"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="p-7">
+              <div class="flex flex-wrap gap-2 text-xs font-bold">
+                <span class="rounded-full bg-blue-50 px-3 py-1.5 text-brand-blue">Interactive Survey</span>
+                <span class="rounded-full bg-violet-50 px-3 py-1.5 text-brand-purple">AI Application</span>
+                <span class="rounded-full bg-emerald-50 px-3 py-1.5 text-brand-mint">User Insight</span>
+              </div>
+              <h3 class="mt-5 text-2xl font-extrabold text-brand-ink">AI 使用調查互動網頁</h3>
+              <p class="mt-3 leading-7 text-brand-body">透過互動式問卷蒐集使用者的 AI 使用方式，並根據回答呈現個人化建議與結果。</p>
+              <button type="button" data-toast="Project details coming soon." class="toast-trigger mt-6 inline-flex min-h-11 items-center gap-2 rounded-full border border-brand-line px-5 py-2.5 text-sm font-bold text-brand-ink transition hover:border-brand-blue hover:text-brand-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4">View Project <span aria-hidden="true">→</span></button>
+            </div>
+          </article>
+
+          <article class="reveal interactive-card overflow-hidden rounded-[2rem] border border-brand-line bg-white shadow-soft">
+            <div class="portfolio-visual p-7">
+              <div class="relative z-10 mx-auto max-w-[230px] rounded-3xl border border-white/80 bg-white/80 p-5 shadow-soft backdrop-blur">
+                <div class="flex items-center justify-between"><span class="text-xs font-bold text-brand-purple">SKILL CHECK</span><span class="h-3 w-3 rounded-full bg-brand-mint"></span></div>
+                <div class="mt-4 space-y-3"><div class="h-10 rounded-xl bg-violet-50"></div><div class="h-10 rounded-xl bg-blue-50"></div><div class="h-10 rounded-xl bg-emerald-50"></div></div>
+              </div>
+            </div>
+            <div class="p-7">
+              <div class="flex flex-wrap gap-2 text-xs font-bold"><span class="rounded-full bg-violet-50 px-3 py-1.5 text-brand-purple">Agent Skills</span><span class="rounded-full bg-blue-50 px-3 py-1.5 text-brand-blue">Evaluation</span></div>
+              <h3 class="mt-5 text-2xl font-extrabold text-brand-ink">Agent Skill 健康檢查工具</h3>
+              <p class="mt-3 leading-7 text-brand-body">將 Skill 的觸發、執行、測試與失效模式，轉化為容易理解的互動式檢核體驗。</p>
+              <button type="button" data-toast="Project details coming soon." class="toast-trigger mt-6 inline-flex min-h-11 items-center gap-2 rounded-full border border-brand-line px-5 py-2.5 text-sm font-bold text-brand-ink transition hover:border-brand-blue hover:text-brand-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4">View Project <span aria-hidden="true">→</span></button>
+            </div>
+          </article>
+
+          <article class="reveal interactive-card overflow-hidden rounded-[2rem] border border-brand-line bg-white shadow-soft">
+            <div class="portfolio-visual p-7">
+              <div class="relative z-10 grid grid-cols-[.7fr_1.3fr] gap-3">
+                <div class="space-y-3"><div class="h-10 rounded-xl bg-white/80 shadow-sm"></div><div class="h-16 rounded-xl bg-white/80 shadow-sm"></div><div class="h-12 rounded-xl bg-white/80 shadow-sm"></div></div>
+                <div class="rounded-3xl border border-white/80 bg-white/75 p-4 shadow-soft backdrop-blur"><div class="h-3 w-1/2 rounded-full bg-blue-100"></div><div class="mt-4 h-3 w-full rounded-full bg-slate-100"></div><div class="mt-2 h-3 w-4/5 rounded-full bg-slate-100"></div><div class="mt-5 h-20 rounded-2xl bg-violet-50"></div></div>
+              </div>
+            </div>
+            <div class="p-7">
+              <div class="flex flex-wrap gap-2 text-xs font-bold"><span class="rounded-full bg-blue-50 px-3 py-1.5 text-brand-blue">Whitepaper</span><span class="rounded-full bg-violet-50 px-3 py-1.5 text-brand-purple">Knowledge Design</span></div>
+              <h3 class="mt-5 text-2xl font-extrabold text-brand-ink">白皮書學習導覽</h3>
+              <p class="mt-3 leading-7 text-brand-body">將複雜白皮書整理為章節導覽、核心概念、關鍵名詞與可實作的學習路徑。</p>
+              <button type="button" data-toast="Project details coming soon." class="toast-trigger mt-6 inline-flex min-h-11 items-center gap-2 rounded-full border border-brand-line px-5 py-2.5 text-sm font-bold text-brand-ink transition hover:border-brand-blue hover:text-brand-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4">View Project <span aria-hidden="true">→</span></button>
+            </div>
+          </article>
+
+          <article class="reveal interactive-card overflow-hidden rounded-[2rem] border border-brand-line bg-white shadow-soft lg:col-span-2">
+            <div class="portfolio-visual p-7">
+              <div class="relative z-10 flex h-full flex-col justify-center">
+                <div class="grid grid-cols-4 items-center gap-3 text-center text-xs font-bold text-brand-ink">
+                  <div class="rounded-2xl border border-white bg-white/80 p-4 shadow-sm">Goal</div><div class="h-px bg-blue-300"></div><div class="rounded-2xl border border-white bg-white/80 p-4 shadow-sm">Process</div><div class="rounded-2xl border border-white bg-white/80 p-4 shadow-sm">Validate</div>
+                </div>
+                <div class="mx-auto mt-6 grid w-3/4 grid-cols-3 gap-3"><div class="h-14 rounded-2xl bg-blue-100/80"></div><div class="h-14 rounded-2xl bg-violet-100/80"></div><div class="h-14 rounded-2xl bg-emerald-100/80"></div></div>
+              </div>
+            </div>
+            <div class="p-7">
+              <div class="flex flex-wrap gap-2 text-xs font-bold"><span class="rounded-full bg-blue-50 px-3 py-1.5 text-brand-blue">AI Workflow</span><span class="rounded-full bg-violet-50 px-3 py-1.5 text-brand-purple">Process Design</span><span class="rounded-full bg-emerald-50 px-3 py-1.5 text-brand-mint">Productivity</span></div>
+              <h3 class="mt-5 text-2xl font-extrabold text-brand-ink">AI 工作流程設計工具</h3>
+              <p class="mt-3 leading-7 text-brand-body">協助使用者從目標、輸入、步驟、人工判斷到成果驗收，建立完整的 AI 協作流程。</p>
+              <button type="button" data-toast="Project details coming soon." class="toast-trigger mt-6 inline-flex min-h-11 items-center gap-2 rounded-full border border-brand-line px-5 py-2.5 text-sm font-bold text-brand-ink transition hover:border-brand-blue hover:text-brand-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4">View Project <span aria-hidden="true">→</span></button>
+            </div>
+          </article>
+
+          <article class="reveal interactive-card overflow-hidden rounded-[2rem] border border-brand-line bg-white shadow-soft">
+            <div class="portfolio-visual p-7"><div class="relative z-10 mx-auto max-w-[230px] rounded-3xl border border-white/80 bg-white/80 p-5 shadow-soft backdrop-blur"><div class="h-3 w-1/2 rounded-full bg-emerald-100"></div><div class="mt-5 grid grid-cols-2 gap-3"><div class="h-16 rounded-2xl bg-blue-50"></div><div class="h-16 rounded-2xl bg-violet-50"></div><div class="col-span-2 h-10 rounded-2xl bg-emerald-50"></div></div></div></div>
+            <div class="p-7"><div class="flex flex-wrap gap-2 text-xs font-bold"><span class="rounded-full bg-emerald-50 px-3 py-1.5 text-brand-mint">Learning Design</span><span class="rounded-full bg-blue-50 px-3 py-1.5 text-brand-blue">Assessment</span></div><h3 class="mt-5 text-2xl font-extrabold text-brand-ink">情境式學習檢核</h3><p class="mt-3 leading-7 text-brand-body">以實際情境、判斷題與回饋機制，協助學習者確認是否真正理解並能應用所學內容。</p><button type="button" data-toast="Project details coming soon." class="toast-trigger mt-6 inline-flex min-h-11 items-center gap-2 rounded-full border border-brand-line px-5 py-2.5 text-sm font-bold text-brand-ink transition hover:border-brand-blue hover:text-brand-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4">View Project <span aria-hidden="true">→</span></button></div>
+          </article>
+
+          <article class="reveal interactive-card overflow-hidden rounded-[2rem] border border-brand-line bg-white shadow-soft lg:col-span-3">
+            <div class="grid md:grid-cols-[1.05fr_.95fr]">
+              <div class="portfolio-visual p-7"><div class="relative z-10 grid h-full items-end gap-3 grid-cols-6"><div class="h-16 rounded-t-2xl bg-blue-200"></div><div class="h-28 rounded-t-2xl bg-blue-400"></div><div class="h-20 rounded-t-2xl bg-violet-300"></div><div class="h-36 rounded-t-2xl bg-violet-500"></div><div class="h-24 rounded-t-2xl bg-emerald-300"></div><div class="h-32 rounded-t-2xl bg-emerald-500"></div></div></div>
+              <div class="p-7 sm:p-9"><div class="flex flex-wrap gap-2 text-xs font-bold"><span class="rounded-full bg-slate-100 px-3 py-1.5 text-brand-ink">Business Intelligence</span><span class="rounded-full bg-blue-50 px-3 py-1.5 text-brand-blue">Data Visualization</span><span class="rounded-full bg-violet-50 px-3 py-1.5 text-brand-purple">Interactive Web</span></div><h3 class="mt-5 text-2xl font-extrabold text-brand-ink">商業資料互動展示</h3><p class="mt-3 leading-7 text-brand-body">將多維度資料以篩選、比較與情境切換方式呈現，協助使用者快速理解資訊與差異。</p><button type="button" data-toast="Project details coming soon." class="toast-trigger mt-6 inline-flex min-h-11 items-center gap-2 rounded-full border border-brand-line px-5 py-2.5 text-sm font-bold text-brand-ink transition hover:border-brand-blue hover:text-brand-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4">View Project <span aria-hidden="true">→</span></button></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="insights" class="py-24 sm:py-32" aria-labelledby="insights-title">
+      <div class="section-shell">
+        <div class="reveal mx-auto max-w-3xl text-center">
+          <p class="text-sm font-extrabold tracking-[0.18em] text-brand-blue">INSIGHTS</p>
+          <h2 id="insights-title" class="mt-4 text-3xl font-extrabold tracking-tight text-brand-ink sm:text-5xl">Learning in Public</h2>
+          <p class="mt-5 text-xl font-bold text-brand-ink">記錄我如何理解 AI、拆解方法，並將學習轉化為實際作品。</p>
+        </div>
+
+        <div class="mt-14 grid gap-6 lg:grid-cols-3">
+          <article class="reveal interactive-card flex h-full flex-col rounded-[2rem] border border-brand-line bg-white p-7 shadow-soft">
+            <div class="flex items-center justify-between gap-4"><span class="rounded-full bg-blue-50 px-3 py-1.5 text-xs font-bold text-brand-blue">AI Workflow</span><span class="text-sm font-medium text-brand-muted">6 min read</span></div>
+            <h3 class="mt-6 text-2xl font-extrabold leading-snug text-brand-ink">學 AI Agent 前，為什麼要先拆解工作流程？</h3>
+            <p class="mt-4 flex-1 leading-7 text-brand-body">先理解目標、輸入、判斷與驗收，才能知道 Agent 應該在哪一段真正創造價值。</p>
+            <button type="button" data-toast="Article publishing soon." class="toast-trigger mt-7 inline-flex min-h-11 items-center gap-2 self-start rounded-full border border-brand-line px-5 py-2.5 text-sm font-bold text-brand-ink transition hover:border-brand-blue hover:text-brand-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4">Read Insight <span aria-hidden="true">→</span></button>
+          </article>
+
+          <article class="reveal interactive-card flex h-full flex-col rounded-[2rem] border border-brand-line bg-white p-7 shadow-soft">
+            <div class="flex items-center justify-between gap-4"><span class="rounded-full bg-violet-50 px-3 py-1.5 text-xs font-bold text-brand-purple">AI Learning</span><span class="text-sm font-medium text-brand-muted">5 min read</span></div>
+            <h3 class="mt-6 text-2xl font-extrabold leading-snug text-brand-ink">AI 幫你做完，不代表它幫你做對</h3>
+            <p class="mt-4 flex-1 leading-7 text-brand-body">速度只是第一層效益；真正可用的產出，仍需要流程設計、人工判斷與成果標準。</p>
+            <button type="button" data-toast="Article publishing soon." class="toast-trigger mt-7 inline-flex min-h-11 items-center gap-2 self-start rounded-full border border-brand-line px-5 py-2.5 text-sm font-bold text-brand-ink transition hover:border-brand-blue hover:text-brand-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4">Read Insight <span aria-hidden="true">→</span></button>
+          </article>
+
+          <article class="reveal interactive-card flex h-full flex-col rounded-[2rem] border border-brand-line bg-white p-7 shadow-soft">
+            <div class="flex items-center justify-between gap-4"><span class="rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-bold text-brand-mint">Agent Skills</span><span class="text-sm font-medium text-brand-muted">7 min read</span></div>
+            <h3 class="mt-6 text-2xl font-extrabold leading-snug text-brand-ink">一個好的 Agent Skill，為什麼一定需要測試？</h3>
+            <p class="mt-4 flex-1 leading-7 text-brand-body">從觸發、執行到回歸測試，Skill 只有通過可驗證的檢查，才不是一份看起來合理的說明文件。</p>
+            <button type="button" data-toast="Article publishing soon." class="toast-trigger mt-7 inline-flex min-h-11 items-center gap-2 self-start rounded-full border border-brand-line px-5 py-2.5 text-sm font-bold text-brand-ink transition hover:border-brand-blue hover:text-brand-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4">Read Insight <span aria-hidden="true">→</span></button>
+          </article>
+        </div>
+
+        <div class="reveal mt-10 text-center">
+          <button type="button" data-toast="Article publishing soon." class="toast-trigger inline-flex min-h-12 items-center justify-center rounded-full bg-brand-ink px-6 py-3 font-bold text-white shadow-soft transition hover:-translate-y-1 hover:shadow-glow focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4">View All Insights</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="relative overflow-hidden bg-brand-soft py-24 sm:py-32" aria-labelledby="contact-title">
+      <div class="ambient-orb -left-20 top-6 h-72 w-72 bg-blue-100" aria-hidden="true"></div>
+      <div class="ambient-orb -right-24 bottom-0 h-80 w-80 bg-violet-100" style="animation-delay: -5s" aria-hidden="true"></div>
+      <div class="section-shell relative z-10">
+        <div class="reveal overflow-hidden rounded-[2.25rem] border border-white/70 bg-white/80 p-7 shadow-soft backdrop-blur-xl sm:p-12 lg:p-16">
+          <div class="grid gap-12 lg:grid-cols-[1.08fr_.92fr] lg:items-center">
+            <div>
+              <p class="text-sm font-extrabold tracking-[0.18em] text-brand-blue">CONTACT</p>
+              <h2 id="contact-title" class="mt-4 text-3xl font-extrabold tracking-tight text-brand-ink sm:text-5xl">Let’s Build a Better Way to Learn</h2>
+              <p class="mt-5 text-xl font-bold text-brand-ink">從一個問題、一份內容或一個想法開始，把它轉化為可以持續使用的方法。</p>
+              <div class="mt-10 grid gap-4 sm:grid-cols-3">
+                <a href="https://courses.taiwanmds.com/product/information?p=02c0c7b9ec7b11f0b3480242ac110002" target="_blank" rel="noopener noreferrer" class="group rounded-[2rem] border border-brand-line bg-white p-6 text-left shadow-soft transition hover:-translate-y-1 hover:border-brand-blue hover:shadow-glow">
+                  <div class="flex items-center gap-3 text-brand-ink">
+                    <span class="grid h-11 w-11 place-items-center rounded-2xl bg-blue-50 text-brand-blue"><i class="fas fa-graduation-cap text-lg"></i></span>
+                    <div>
+                      <p class="text-sm font-bold text-brand-blue">Vibe Coding</p>
+                      <h3 class="mt-1 text-lg font-extrabold text-brand-ink">行銷數據分析學習圈</h3>
+                    </div>
+                  </div>
+                  <p class="mt-4 text-sm leading-6 text-brand-body">訂閱 Vibe Coding 行銷數據分析學習圈，跟著我們一同走入行銷數據分析與 vibe coding 自動化的世界。</p>
+                </a>
+                <a href="https://judgai.com/" target="_blank" rel="noopener noreferrer" class="group rounded-[2rem] border border-brand-line bg-white p-6 text-left shadow-soft transition hover:-translate-y-1 hover:border-brand-purple hover:shadow-glow">
+                  <div class="flex items-center gap-3 text-brand-ink">
+                    <span class="grid h-11 w-11 place-items-center rounded-2xl bg-violet-50 text-brand-purple"><i class="fas fa-robot text-lg"></i></span>
+                    <div>
+                      <p class="text-sm font-bold text-brand-purple">保險機器人</p>
+                      <h3 class="mt-1 text-lg font-extrabold text-brand-ink">當經驗成為奇點，AI更是保險未來的引擎</h3>
+                    </div>
+                  </div>
+                  <p class="mt-4 text-sm leading-6 text-brand-body">從經驗、法條到正確說明，奇點讓每位保險專業者擁有一位懂法的科技夥伴。</p>
+                </a>
+                <a href="https://judgai.com/saymind" target="_blank" rel="noopener noreferrer" class="group rounded-[2rem] border border-brand-line bg-white p-6 text-left shadow-soft transition hover:-translate-y-1 hover:border-brand-mint hover:shadow-glow">
+                  <div class="flex items-center gap-3 text-brand-ink">
+                    <span class="grid h-11 w-11 place-items-center rounded-2xl bg-emerald-50 text-brand-mint"><i class="fas fa-microphone-lines text-lg"></i></span>
+                    <div>
+                      <p class="text-sm font-bold text-brand-mint">SayMind</p>
+                      <h3 class="mt-1 text-lg font-extrabold text-brand-ink">一站式語音轉錄與 AI 筆記整理</h3>
+                    </div>
+                  </div>
+                  <p class="mt-4 text-sm leading-6 text-brand-body">使用 LangChain 搭建的 RAG 系統，可上傳 PDF 並進行精準問答。</p>
+                </a>
+              </div>
+
+              <div class="mt-8 rounded-[2rem] border border-brand-line bg-white/90 p-6 shadow-sm">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <p class="text-sm font-extrabold tracking-[0.14em] text-brand-purple">DEPENDENCIES</p>
+                    <h3 class="mt-2 text-lg font-extrabold text-brand-ink">外部依賴庫</h3>
+                  </div>
+                  <span class="rounded-full bg-brand-pale px-3 py-1 text-xs font-bold text-brand-blue">社群與連結</span>
+                </div>
+
+                <div class="mt-5 grid gap-3 sm:grid-cols-2">
+                  <a href="https://line.me/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 rounded-2xl border border-brand-line bg-slate-50 p-3 transition hover:-translate-y-1 hover:border-brand-blue hover:bg-white">
+                    <span class="grid h-11 w-11 place-items-center rounded-2xl bg-green-50 text-green-600"><i class="fab fa-line text-xl" aria-hidden="true"></i></span>
+                    <span class="font-bold text-brand-ink">LINE</span>
+                  </a>
+                  <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 rounded-2xl border border-brand-line bg-slate-50 p-3 transition hover:-translate-y-1 hover:border-brand-blue hover:bg-white">
+                    <span class="grid h-11 w-11 place-items-center rounded-2xl bg-blue-50 text-blue-600"><i class="fab fa-facebook-f text-xl" aria-hidden="true"></i></span>
+                    <span class="font-bold text-brand-ink">Facebook</span>
+                  </a>
+                  <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 rounded-2xl border border-brand-line bg-slate-50 p-3 transition hover:-translate-y-1 hover:border-brand-blue hover:bg-white">
+                    <span class="grid h-11 w-11 place-items-center rounded-2xl bg-violet-50 text-brand-purple"><i class="fab fa-linkedin-in text-xl" aria-hidden="true"></i></span>
+                    <span class="font-bold text-brand-ink">LinkedIn</span>
+                  </a>
+                  <a href="https://github.com/ai-survey-v2/index.html" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 rounded-2xl border border-brand-line bg-slate-50 p-3 transition hover:-translate-y-1 hover:border-brand-blue hover:bg-white">
+                    <span class="grid h-11 w-11 place-items-center rounded-2xl bg-slate-100 text-slate-700"><i class="fab fa-github text-xl" aria-hidden="true"></i></span>
+                    <span class="font-bold text-brand-ink">GitHub</span>
+                  </a>
+                </div>
+              </div>
+
+              <div class="mt-6 rounded-[2rem] border border-brand-line bg-gradient-to-br from-brand-pale via-white to-slate-50 p-6 shadow-sm">
+                <p class="text-sm font-extrabold tracking-[0.14em] text-brand-blue">FORM</p>
+                <h3 class="mt-2 text-lg font-extrabold text-brand-ink">填寫需求表單</h3>
+                <p class="mt-3 text-sm leading-6 text-brand-body">把你的需求、目標與時間說明給我，我會協助你整理出最適合的合作方案。</p>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeXuocIhNddAz1iLrr6XMTy1UjTMK8uhAc1yz4rZ0s1B7PDlg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" class="mt-5 inline-flex min-h-11 items-center justify-center rounded-full bg-gradient-to-r from-brand-blue to-brand-purple px-5 py-2.5 text-sm font-bold text-white shadow-glow transition hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4">填寫需求表單</a>
+              </div>
+
+              <div class="mt-8 flex flex-col gap-4 sm:flex-row">
+                <a href="https://calendar.app.google/G3iCScDJyPbezTw3A" target="_blank" rel="noopener noreferrer" data-hover-label="Status: Ready to Connect" class="cta-button hover-label-button inline-flex min-h-13 items-center justify-center rounded-full bg-gradient-to-r from-brand-blue to-brand-purple px-6 py-3.5 font-bold text-white shadow-glow focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4"><span class="cta-label">Book a Consultation</span></a>
+                <a href="#portfolio" class="cta-button inline-flex min-h-13 items-center justify-center rounded-full border border-brand-line bg-white px-6 py-3.5 font-bold text-brand-ink shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4"><span class="cta-label">Explore My Work</span></a>
+              </div>
+
+              <div class="mt-10 flex flex-wrap gap-3">
+                <!-- TODO: 請將以下 Email 替換為正式信箱 -->
+                <a href="mailto:hello@yourdomain.com" class="inline-flex min-h-11 items-center gap-2 rounded-full border border-brand-line bg-white px-4 py-2 text-sm font-bold text-brand-ink transition hover:border-brand-blue hover:text-brand-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+                  hello@yourdomain.com
+                </a>
+                <button type="button" data-toast="Social link coming soon." class="toast-trigger inline-flex min-h-11 items-center rounded-full border border-brand-line bg-white px-4 py-2 text-sm font-bold text-brand-ink transition hover:border-brand-blue hover:text-brand-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4">LinkedIn</button>
+                <button type="button" data-toast="Social link coming soon." class="toast-trigger inline-flex min-h-11 items-center rounded-full border border-brand-line bg-white px-4 py-2 text-sm font-bold text-brand-ink transition hover:border-brand-blue hover:text-brand-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4">Instagram</button>
+                <button type="button" data-toast="Social link coming soon." class="toast-trigger inline-flex min-h-11 items-center rounded-full border border-brand-line bg-white px-4 py-2 text-sm font-bold text-brand-ink transition hover:border-brand-blue hover:text-brand-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4">GitHub</button>
+              </div>
+            </div>
+
+            <div class="rounded-[2rem] border border-brand-line bg-brand-soft p-6 sm:p-8">
+              <p class="text-sm font-extrabold tracking-[0.14em] text-brand-purple">COLLABORATION AREAS</p>
+              <ul class="mt-6 space-y-4">
+                <li class="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm"><span class="grid h-9 w-9 place-items-center rounded-xl bg-blue-50 font-bold text-brand-blue">01</span><span class="font-bold text-brand-ink">AI 學習內容整理</span></li>
+                <li class="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm"><span class="grid h-9 w-9 place-items-center rounded-xl bg-violet-50 font-bold text-brand-purple">02</span><span class="font-bold text-brand-ink">白皮書與課程知識設計</span></li>
+                <li class="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm"><span class="grid h-9 w-9 place-items-center rounded-xl bg-emerald-50 font-bold text-brand-mint">03</span><span class="font-bold text-brand-ink">互動式學習網頁</span></li>
+                <li class="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm"><span class="grid h-9 w-9 place-items-center rounded-xl bg-slate-100 font-bold text-brand-ink">04</span><span class="font-bold text-brand-ink">AI 工作流程規劃</span></li>
+                <li class="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm"><span class="grid h-9 w-9 place-items-center rounded-xl bg-sky-50 font-bold text-sky-600">05</span><span class="font-bold text-brand-ink">學習工具與成果展示</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-brand-line bg-white py-8">
+    <div class="section-shell flex flex-col gap-4 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
+      <p class="text-sm text-brand-muted">© <span id="currentYear"></span> Mini Sung. Built for human-centered AI learning.</p>
+      <a href="#home" class="text-sm font-bold text-brand-ink transition hover:text-brand-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <button id="backToTop" class="pointer-events-none fixed bottom-6 right-6 z-40 grid h-12 w-12 translate-y-5 place-items-center rounded-full border border-brand-line bg-white text-brand-ink opacity-0 shadow-soft transition hover:-translate-y-1 hover:text-brand-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4" aria-label="回到頁首">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m18 15-6-6-6 6"/></svg>
+  </button>
+
+  <div id="toast" class="toast fixed bottom-6 left-1/2 z-[90] -translate-x-1/2 rounded-full bg-brand-ink px-5 py-3 text-sm font-bold text-white shadow-soft" role="status" aria-live="polite">Project details coming soon.</div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const siteHeader = document.getElementById('siteHeader');
+      const scrollProgress = document.getElementById('scrollProgress');
+      const backToTop = document.getElementById('backToTop');
+      const menuButton = document.getElementById('menuButton');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const toast = document.getElementById('toast');
+      const typingText = document.getElementById('typingText');
+      const navLinks = Array.from(document.querySelectorAll('.nav-link'));
+      const mobileNavLinks = Array.from(document.querySelectorAll('.mobile-nav-link'));
+      const sections = Array.from(document.querySelectorAll('main section[id]'));
+      let toastTimer;
+
+      document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+      // 導覽列、閱讀進度與回到頁首按鈕
+      const updateScrollUI = () => {
+        const scrollTop = window.scrollY;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = maxScroll > 0 ? (scrollTop / maxScroll) * 100 : 0;
+        scrollProgress.style.width = `${progress}%`;
+
+        const isScrolled = scrollTop > 20;
+        siteHeader.classList.toggle('bg-white/85', isScrolled);
+        siteHeader.classList.toggle('backdrop-blur-xl', isScrolled);
+        siteHeader.classList.toggle('border-brand-line', isScrolled);
+        siteHeader.classList.toggle('shadow-sm', isScrolled);
+
+        const showTop = scrollTop > 700;
+        backToTop.classList.toggle('opacity-0', !showTop);
+        backToTop.classList.toggle('translate-y-5', !showTop);
+        backToTop.classList.toggle('pointer-events-none', !showTop);
+      };
+
+      updateScrollUI();
+      window.addEventListener('scroll', updateScrollUI, { passive: true });
+
+      backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+      });
+
+      // 手機版選單
+      const setMenuState = (open) => {
+        menuButton.setAttribute('aria-expanded', String(open));
+        menuButton.setAttribute('aria-label', open ? '關閉導覽選單' : '開啟導覽選單');
+        mobileMenu.setAttribute('aria-hidden', String(!open));
+        mobileMenu.classList.toggle('pointer-events-none', !open);
+        mobileMenu.classList.toggle('opacity-0', !open);
+        mobileMenu.classList.toggle('scale-95', !open);
+        mobileMenu.classList.toggle('opacity-100', open);
+        mobileMenu.classList.toggle('scale-100', open);
+      };
+
+      menuButton.addEventListener('click', () => {
+        setMenuState(menuButton.getAttribute('aria-expanded') !== 'true');
+      });
+
+      mobileNavLinks.forEach((link) => link.addEventListener('click', () => setMenuState(false)));
+
+      document.addEventListener('click', (event) => {
+        if (menuButton.getAttribute('aria-expanded') === 'true' && !mobileMenu.contains(event.target) && !menuButton.contains(event.target)) {
+          setMenuState(false);
+        }
+      });
+
+      // 導覽列區塊高亮
+      const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          navLinks.forEach((link) => {
+            link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`);
+          });
+        });
+      }, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
+
+      sections.forEach((section) => sectionObserver.observe(section));
+
+      // 區塊進場動畫
+      const revealElements = Array.from(document.querySelectorAll('.reveal'));
+      revealElements.forEach((element, index) => {
+        element.style.transitionDelay = `${Math.min((index % 4) * 70, 210)}ms`;
+      });
+
+      if (prefersReducedMotion) {
+        revealElements.forEach((element) => element.classList.add('is-visible'));
+      } else {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.14 });
+        revealElements.forEach((element) => revealObserver.observe(element));
+      }
+
+      // Hero 打字效果
+      const titleParts = [
+        { text: 'Until ', gradient: false },
+        { text: 'AI-Powered Learning', gradient: true },
+        { text: ' Becomes Common Sense', gradient: false }
+      ];
+
+      if (prefersReducedMotion) {
+        typingText.innerHTML = 'Until <span class="gradient-text">AI-Powered Learning</span> Becomes Common Sense';
+      } else {
+        let partIndex = 0;
+        let charIndex = 0;
+        let accumulatedHTML = '';
+
+        const typeNext = () => {
+          if (partIndex >= titleParts.length) return;
+          const currentPart = titleParts[partIndex];
+          charIndex += 1;
+          const currentSlice = currentPart.text.slice(0, charIndex);
+          const renderedPart = currentPart.gradient ? `<span class="gradient-text">${currentSlice}</span>` : currentSlice;
+          typingText.innerHTML = accumulatedHTML + renderedPart;
+
+          if (charIndex < currentPart.text.length) {
+            window.setTimeout(typeNext, 44);
+          } else {
+            accumulatedHTML += currentPart.gradient ? `<span class="gradient-text">${currentPart.text}</span>` : currentPart.text;
+            partIndex += 1;
+            charIndex = 0;
+            window.setTimeout(typeNext, 150);
+          }
+        };
+        window.setTimeout(typeNext, 420);
+      }
+
+      // CTA Hover 文字切換
+      document.querySelectorAll('.hover-label-button').forEach((button) => {
+        const label = button.querySelector('.cta-label');
+        if (!label) return;
+        const originalText = label.textContent;
+        const hoverText = button.dataset.hoverLabel || originalText;
+        const setLabel = (text) => { label.textContent = text; };
+        button.addEventListener('mouseenter', () => setLabel(hoverText));
+        button.addEventListener('mouseleave', () => setLabel(originalText));
+        button.addEventListener('focus', () => setLabel(hoverText));
+        button.addEventListener('blur', () => setLabel(originalText));
+      });
+
+      // Toast
+      const showToast = (message) => {
+        window.clearTimeout(toastTimer);
+        toast.textContent = message;
+        toast.classList.add('show');
+        toastTimer = window.setTimeout(() => toast.classList.remove('show'), 2400);
+      };
+
+      document.querySelectorAll('.toast-trigger').forEach((trigger) => {
+        trigger.addEventListener('click', () => showToast(trigger.dataset.toast || 'Coming soon.'));
+      });
+
+      // 輕量粒子背景
+      const canvas = document.getElementById('particleCanvas');
+      const ctx = canvas?.getContext('2d');
+      if (canvas && ctx && !prefersReducedMotion) {
+        let particles = [];
+        let animationFrame;
+        let width = 0;
+        let height = 0;
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        const particleCount = isMobile ? 22 : 42;
+
+        const resizeCanvas = () => {
+          const ratio = Math.min(window.devicePixelRatio || 1, 2);
+          width = canvas.clientWidth;
+          height = canvas.clientHeight;
+          canvas.width = Math.floor(width * ratio);
+          canvas.height = Math.floor(height * ratio);
+          ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        };
+
+        const createParticles = () => {
+          particles = Array.from({ length: particleCount }, () => ({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            vx: (Math.random() - 0.5) * 0.16,
+            vy: (Math.random() - 0.5) * 0.16,
+            radius: Math.random() * 1.5 + 1
+          }));
+        };
+
+        const drawParticles = () => {
+          ctx.clearRect(0, 0, width, height);
+          particles.forEach((particle, index) => {
+            particle.x += particle.vx;
+            particle.y += particle.vy;
+            if (particle.x < 0 || particle.x > width) particle.vx *= -1;
+            if (particle.y < 0 || particle.y > height) particle.vy *= -1;
+
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(37, 99, 235, 0.28)';
+            ctx.fill();
+
+            for (let j = index + 1; j < particles.length; j += 1) {
+              const other = particles[j];
+              const dx = particle.x - other.x;
+              const dy = particle.y - other.y;
+              const distance = Math.sqrt(dx * dx + dy * dy);
+              if (distance < 125) {
+                ctx.beginPath();
+                ctx.moveTo(particle.x, particle.y);
+                ctx.lineTo(other.x, other.y);
+                ctx.strokeStyle = `rgba(124, 58, 237, ${0.09 * (1 - distance / 125)})`;
+                ctx.lineWidth = 0.7;
+                ctx.stroke();
+              }
+            }
+          });
+          animationFrame = window.requestAnimationFrame(drawParticles);
+        };
+
+        resizeCanvas();
+        createParticles();
+        drawParticles();
+
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+          window.clearTimeout(resizeTimer);
+          resizeTimer = window.setTimeout(() => {
+            resizeCanvas();
+            createParticles();
+          }, 160);
+        });
+
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden) {
+            window.cancelAnimationFrame(animationFrame);
+          } else {
+            drawParticles();
+          }
+        });
+      }
+
+      // 桌面版輕微游標視差
+      if (!prefersReducedMotion && window.matchMedia('(min-width: 1024px)').matches) {
+        const heroPanel = document.querySelector('#home .glass-panel');
+        const hero = document.getElementById('home');
+        if (heroPanel && hero) {
+          hero.addEventListener('mousemove', (event) => {
+            const rect = hero.getBoundingClientRect();
+            const x = (event.clientX - rect.left) / rect.width - 0.5;
+            const y = (event.clientY - rect.top) / rect.height - 0.5;
+            heroPanel.style.transform = `translate3d(${x * 8}px, ${y * 8}px, 0)`;
+          });
+          hero.addEventListener('mouseleave', () => {
+            heroPanel.style.transform = 'translate3d(0, 0, 0)';
+          });
+        }
+      }
+    });
+  </script>
+</body>
+</html>
