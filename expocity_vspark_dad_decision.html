@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>EXPOCITY / VS PARK｜給爸爸的決策版</title>
+<style>
+:root{
+  --bg:#f7f7f4; --paper:#ffffff; --ink:#1f2937; --muted:#6b7280; --line:#e5e7eb;
+  --blue:#2f6fed; --blue2:#eaf1ff; --green:#1f8a5b; --green2:#eaf8f1;
+  --amber:#b7791f; --amber2:#fff7e6; --red:#b54747; --red2:#fff0f0;
+  --shadow:0 12px 34px rgba(31,41,55,.09); --radius:22px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:linear-gradient(180deg,#f4f7fb 0,#f7f7f4 35%,#f7f7f4 100%);
+  color:var(--ink);font-family:Inter,"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif}
+main{max-width:1100px;margin:auto;padding:34px 22px 70px}
+.hero{display:grid;grid-template-columns:1.25fr .75fr;gap:24px;align-items:stretch;margin-bottom:24px}
+.hero-main,.scorebox,.section,.decision{background:rgba(255,255,255,.92);border:1px solid rgba(229,231,235,.9);
+  border-radius:var(--radius);box-shadow:var(--shadow)}
+.hero-main{padding:34px}
+h1{font-size:clamp(30px,4.5vw,54px);line-height:1.08;margin:0 0 16px;letter-spacing:-.03em}
+.lead{font-size:18px;line-height:1.75;color:#4b5563;margin:0}
+.hero-tag{display:inline-block;font-weight:700;color:var(--blue);margin-bottom:14px}
+.keyline{margin-top:24px;padding:18px 20px;border-left:5px solid var(--blue);background:var(--blue2);border-radius:14px;
+ font-size:18px;line-height:1.6;font-weight:700}
+.scorebox{padding:28px;display:flex;flex-direction:column;justify-content:center}
+.bigscore{font-size:66px;font-weight:850;letter-spacing:-.05em}
+.scorelabel{color:var(--muted);font-size:14px;margin-bottom:12px}
+.verdict{font-size:18px;font-weight:800;margin:5px 0 10px}
+.small{font-size:14px;color:var(--muted);line-height:1.6}
+.section{padding:28px;margin-top:22px}
+.section h2{margin:0 0 18px;font-size:27px;letter-spacing:-.02em}
+.transport{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;align-items:stretch}
+.step{border:1px solid var(--line);border-radius:16px;padding:16px;background:#fff;min-height:118px}
+.step b{display:block;margin-bottom:7px}
+.arrow{display:none}
+.timeband{margin-top:16px;padding:16px 18px;border-radius:14px;background:#f3f4f6;font-weight:700}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.pro,.con{padding:22px;border-radius:18px}
+.pro{background:var(--green2);border:1px solid #cdebdc}.con{background:var(--red2);border:1px solid #f1cccc}
+.pro h3,.con h3{margin-top:0}
+ul{margin:8px 0 0;padding-left:20px;line-height:1.8}
+.personas{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.persona{border:1px solid var(--line);border-radius:18px;padding:20px;background:#fff}
+.stars{font-size:19px;letter-spacing:2px;color:#f0a500}
+.persona strong{font-size:19px}
+.options{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.option{border:1px solid var(--line);border-radius:18px;padding:20px;background:#fff}
+.option h3{margin:0 0 8px}.option p{margin:0;color:#4b5563;line-height:1.65}
+.quiz{display:grid;grid-template-columns:1.05fr .95fr;gap:20px}
+.qpanel{border:1px solid var(--line);border-radius:18px;padding:22px;background:#fff}
+.question{padding:17px 0;border-bottom:1px solid var(--line)}
+.question:last-child{border-bottom:none}
+.question label.title{font-weight:800;display:block;margin-bottom:10px}
+.choice-row{display:flex;gap:10px;flex-wrap:wrap}
+.choice{position:relative}
+.choice input{position:absolute;opacity:0;pointer-events:none}
+.choice span{display:inline-block;border:1px solid #d1d5db;padding:9px 13px;border-radius:999px;background:#fff;cursor:pointer;font-size:14px}
+.choice input:checked + span{background:var(--blue);color:#fff;border-color:var(--blue)}
+.result{border-radius:20px;padding:25px;display:flex;flex-direction:column;justify-content:center;min-height:330px}
+.result.keep{background:var(--green2);border:1px solid #cdebdc}
+.result.maybe{background:var(--amber2);border:1px solid #f4dfaa}
+.result.drop{background:var(--red2);border:1px solid #f1cccc}
+.result h3{font-size:30px;margin:4px 0 12px}
+.result .emoji{font-size:42px}
+.result p{line-height:1.7;color:#374151}
+.result .metric{font-weight:800}
+.matrix{display:grid;grid-template-columns:1.2fr repeat(2,1fr);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.cell{padding:13px 14px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff}
+.cell:nth-child(3n){border-right:0}.head{font-weight:800;background:#f3f4f6}
+.decision{margin-top:22px;padding:28px;background:#111827;color:white}
+.decision h2{margin:0 0 10px;font-size:30px}
+.decision p{margin:0;color:#d1d5db;line-height:1.7}
+.footer{color:var(--muted);font-size:13px;margin-top:18px;line-height:1.6}
+button{font:inherit}
+@media(max-width:820px){
+  .hero,.quiz,.grid2{grid-template-columns:1fr}.personas,.options{grid-template-columns:1fr}
+  .transport{grid-template-columns:1fr}.step{min-height:0}
+  .matrix{grid-template-columns:1.2fr 1fr 1fr;font-size:13px}.cell{padding:10px}
+}
+</style>
+</head>
+<body>
+<main>
+  <section class="hero">
+    <div class="hero-main">
+      <div class="hero-tag">8/26 父子三人｜半日候選行程</div>
+      <h1>EXPOCITY / VS PARK<br>到底要不要留？</h1>
+      <p class="lead">這不是在問「VS PARK 好不好玩」，而是在問：<b>要不要用約 5 小時，換弟弟一個高分動態體驗，而哥哥的滿意度可能只是普通？</b></p>
+      <div class="keyline">核心判斷：爸爸願意一起玩 + 哥哥能接受 → 值得留。<br>爸爸只是陪同 + 哥哥興趣低 → 可以刪。</div>
+    </div>
+    <aside class="scorebox">
+      <div class="scorelabel">目前整體評估</div>
+      <div class="bigscore">3.8<span style="font-size:30px">/5</span></div>
+      <div class="verdict">不是必去，是「條件式值得」</div>
+      <div class="small">弟弟 5/5｜哥哥 3/5｜爸爸參與感 4/5｜8 月舒適度 5/5｜交通便利 2.5/5</div>
+    </aside>
+  </section>
+
+  <section class="section">
+    <h2>先看最大成本：交通</h2>
+    <div class="transport">
+      <div class="step"><b>Super Hotel Premier</b>步行約 2–5 分鐘到本町站</div>
+      <div class="step"><b>本町站</b>搭 Metro / 北大阪急行方向</div>
+      <div class="step"><b>千里中央</b>轉大阪 Monorail</div>
+      <div class="step"><b>萬博記念公園站</b>出站後即為 EXPOCITY 區域</div>
+      <div class="step"><b>VS PARK</b>抓約 2 小時遊玩</div>
+    </div>
+    <div class="timeband">規劃值：單程約 45–55 分鐘；含玩樂、午餐、逛街後，整段很容易變成 <b>5–6 小時</b>。</div>
+  </section>
+
+  <section class="section">
+    <h2>為什麼它可能值得？又為什麼可能不值得？</h2>
+    <div class="grid2">
+      <div class="pro"><h3>留下它的理由</h3><ul>
+        <li>弟弟的匹配度非常高：跑、跳、踢、投、反應競賽。</li>
+        <li>8 月室內活動，避暑與下雨備案價值高。</li>
+        <li>爸爸可以一起參與，不是只在旁邊等。</li>
+        <li>旁邊就是 LaLaport，吃飯、逛街一次處理。</li>
+        <li>父子三人一起比賽，容易留下共同回憶。</li>
+      </ul></div>
+      <div class="con"><h3>刪掉它的理由</h3><ul>
+        <li>哥哥偏靜態，兩小時完整體感活動未必高分。</li>
+        <li>交通來回約 1.5–2 小時，不符合「點到點 30 分鐘」理想。</li>
+        <li>不是大阪限定文化體驗，獨特性不是滿分。</li>
+        <li>若爸爸不玩、只陪同，整體價值會明顯下降。</li>
+        <li>很難當成「順便去一下」，會吃掉半天。</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>三個人的真實匹配度</h2>
+    <div class="personas">
+      <div class="persona"><strong>弟弟｜動態型</strong><div class="stars">★★★★★</div><p>VS PARK 幾乎正中喜好，預期是三人中最開心的。</p></div>
+      <div class="persona"><strong>哥哥｜偏靜態</strong><div class="stars">★★★☆☆</div><p>射箭、反應、投球類可能可接受，但未必想全程跑跳。</p></div>
+      <div class="persona"><strong>爸爸｜關鍵變數</strong><div class="stars">★★★★☆</div><p>如果願意下場比賽，價值上升；若只在旁邊等，價值下降。</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>如果去，有 3 種玩法</h2>
+    <div class="options">
+      <div class="option"><h3>A｜三人一起玩</h3><p>最完整也最簡單。適合哥哥願意配合、爸爸也願意下場的情況。</p></div>
+      <div class="option"><h3>B｜爸爸＋弟弟主玩</h3><p>哥哥挑喜歡的項目參與，或部分時間在 LaLaport 自己逛。彈性最高。</p></div>
+      <div class="option"><h3>C｜直接不去</h3><p>如果爸爸也沒興趣，就把 5–6 小時拿回大阪市中心，找兄弟交集型方案。</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>爸爸 4 題決策器</h2>
+    <div class="quiz">
+      <div class="qpanel" id="questions">
+        <div class="question">
+          <label class="title">1. 你願意真的下場一起玩嗎？</label>
+          <div class="choice-row">
+            <label class="choice"><input type="radio" name="q1" value="2"><span>會，我也想玩</span></label>
+            <label class="choice"><input type="radio" name="q1" value="0" checked><span>看情況</span></label>
+            <label class="choice"><input type="radio" name="q1" value="-2"><span>主要只是陪</span></label>
+          </div>
+        </div>
+        <div class="question">
+          <label class="title">2. 哥哥若只有普通興趣，你能接受嗎？</label>
+          <div class="choice-row">
+            <label class="choice"><input type="radio" name="q2" value="2"><span>可以，弟弟開心就值得</span></label>
+            <label class="choice"><input type="radio" name="q2" value="0" checked><span>希望三人都至少 4 分</span></label>
+            <label class="choice"><input type="radio" name="q2" value="-2"><span>不想有人只是陪</span></label>
+          </div>
+        </div>
+        <div class="question">
+          <label class="title">3. 你能接受來回近 2 小時交通嗎？</label>
+          <div class="choice-row">
+            <label class="choice"><input type="radio" name="q3" value="2"><span>可以</span></label>
+            <label class="choice"><input type="radio" name="q3" value="0" checked><span>勉強可接受</span></label>
+            <label class="choice"><input type="radio" name="q3" value="-2"><span>不想</span></label>
+          </div>
+        </div>
+        <div class="question">
+          <label class="title">4. 8 月避暑室內活動對你重要嗎？</label>
+          <div class="choice-row">
+            <label class="choice"><input type="radio" name="q4" value="1"><span>很重要</span></label>
+            <label class="choice"><input type="radio" name="q4" value="0" checked><span>普通</span></label>
+            <label class="choice"><input type="radio" name="q4" value="-1"><span>不重要</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="result maybe" id="result">
+        <div class="emoji" id="emoji">🤔</div>
+        <div class="small">即時計算</div>
+        <h3 id="resultTitle">先保留成備案</h3>
+        <p id="resultText">目前條件沒有明顯偏向「一定去」或「一定刪」。先留著，等爸爸確認自己是否願意參與，再做最後決定。</p>
+        <div class="metric" id="metric">決策分數：0</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>如果爸爸還在猶豫，最後只看這張表</h2>
+    <div class="matrix">
+      <div class="cell head">判斷條件</div><div class="cell head">留 EXPOCITY</div><div class="cell head">改市中心</div>
+      <div class="cell">爸爸願意一起玩</div><div class="cell">✓</div><div class="cell">—</div>
+      <div class="cell">弟弟高分最重要</div><div class="cell">✓</div><div class="cell">—</div>
+      <div class="cell">哥哥也要高分</div><div class="cell">—</div><div class="cell">✓</div>
+      <div class="cell">不想長途轉乘</div><div class="cell">—</div><div class="cell">✓</div>
+      <div class="cell">想避暑、不怕下雨</div><div class="cell">✓</div><div class="cell">—</div>
+      <div class="cell">想要大阪限定感</div><div class="cell">—</div><div class="cell">✓</div>
+    </div>
+  </section>
+
+  <section class="decision">
+    <h2>一句話版本</h2>
+    <p><b>YES：</b>「我願意陪弟弟一起玩，哥哥普通也沒關係。」→ 留。<br>
+       <b>NO：</b>「哥哥沒興趣，我自己也只是陪，而且不想花近 2 小時交通。」→ 刪。</p>
+  </section>
+
+  <div class="footer">
+    本頁依目前規劃值製作：8/26 父子三人、住宿為 Super Hotel Premier 大阪本町站前；VS PARK 以約 2 小時遊玩、單程 45–55 分鐘作為行程判斷基準。實際班次、票價與營業資訊仍應以出發前官方資訊為準。
+  </div>
+</main>
+<script>
+function calc(){
+  let s=0;
+  document.querySelectorAll('input[type=radio]:checked').forEach(x=>s+=Number(x.value));
+  const box=document.getElementById('result'), title=document.getElementById('resultTitle'),
+        text=document.getElementById('resultText'), emoji=document.getElementById('emoji'),
+        metric=document.getElementById('metric');
+  box.className='result';
+  if(s>=4){
+    box.classList.add('keep'); emoji.textContent='✅'; title.textContent='建議保留 EXPOCITY / VS PARK';
+    text.textContent='爸爸願意參與、也能接受哥哥興趣不一定滿分，這時 VS PARK 的價值主要來自弟弟的高滿意度、父子共同參與與 8 月室內舒適度。';
+  }else if(s<=-3){
+    box.classList.add('drop'); emoji.textContent='✂️'; title.textContent='建議刪除，改排大阪市中心';
+    text.textContent='你比較在意三人都要有興趣、交通不要太久，或爸爸本身不想玩。這時不值得為單一高分成員付出 5–6 小時。';
+  }else{
+    box.classList.add('maybe'); emoji.textContent='🤔'; title.textContent='先保留成備案';
+    text.textContent='目前條件沒有明顯偏向「一定去」或「一定刪」。最值得再確認的是：爸爸本人到底想不想一起下場玩。';
+  }
+  metric.textContent='決策分數：'+s;
+}
+document.querySelectorAll('input[type=radio]').forEach(x=>x.addEventListener('change',calc));
+calc();
+</script>
+</body>
+</html>
